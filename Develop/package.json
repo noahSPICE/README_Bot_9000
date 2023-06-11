@@ -1,12 +1,12 @@
 {
   "name": "static-site",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is an application that will be functional through the command line. This will generate new, high quality as well as professional README files to be imported into a poject.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Noah James Nelson",
   "license": "ISC",
   "dependencies": {
     "inquirer": "^6.3.1"
