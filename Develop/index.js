@@ -16,7 +16,23 @@ const questions = [
             return true;
         }
     },
-    
+    {
+        type: 'input',
+        message: "Write a description of your project.",
+        name: 'description',
+        default: 'Project Description',
+        validate: function (answer) {
+            if (answer.length < 1) {
+                return console.log("A valid project description is required.");
+            }
+            return true;
+        }
+    },
+    {
+        type: 'input',
+        message: "Make sure you have node.js installed -- Version 16. Make sure VS Code is also installed",
+        name: 'installation'
+    },
 ];
 
 // TODO: Create a function to write README file
