@@ -1,81 +1,130 @@
 // TODO: Include packages needed for this application
 const inquirer = require("inquirer");
 const fs = require("fs");
-const util = require("util");
+const generateMarkdown= require("./utils/generateMarkdown.js");
 // TODO: Create an array of questions for user input
 const questions = [
   {
     type: "input",
     message: "What is your application's title name?",
     name: "title",
-    default: "App Title",
-    validate: function (answer) {
-      if (answer.length < 1) {
-        return console.log("Please input a proper app title");
+    validate: your_input => {
+      if (your_input) {
+        return true;
+      }else{
+        console.log("Please input a proper app title");
+        return false;
       }
-      return true;
+      
     },
   },
   {
     type: "input",
     message: "Write a description of your project.",
     name: "description",
-    default: "Project Description",
-    validate: function (answer) {
-      if (answer.length < 1) {
-        return console.log("A valid project description is required.");
+    validate: your_description => {
+      if (your_description) {
+        return true;
+      } else {
+        console.log("A valid project description is required.");
+        return false;
       }
-      return true;
+      
     },
   },
   {
     type: "input",
     message:
-      "Make sure you have node.js installed -- Version 16. Make sure VS Code is also installed.",
+      "This is how you install. Make sure you pay attention!",
     name: "installation",
+    validate: your_installation => {
+        if (your_installation) {
+            return true;
+        } else {
+            console.log('Make sure you have node.js installed -- Version 16. Make sure VS Code is also installed.');
+            return false;
+        }
+    }
   },
   {
     type: "input",
     message:
-      "This is a versitile application that anyone can use. You can usee it for personal or corporate projects/ applications. It is designed to help you for an effective and eloquent README file for your project.",
+      "How do YOU plan on using this application?",
     name: "usage",
+    validate: your_usage => {
+        if (your_usage) {
+            return true;
+        } else {
+            console.log('Please describe your usage!');
+            return false;
+        }
+    }
   },
   {
-    type: "list",
+    type: "checkbox",
     message: "CHOOSE YOUR LISCENCE, PADAWAN",
+    name: "license",
     choices: [
-      "GNU AGPLv3",
-      "GNU GPLv3",
-      "GNU LGPLv3",
+      "GNU",
       "Mozilla Public License 2.0",
       "Apache License 2.0",
       "MIT License",
-      "Boost Software License 1.0",
       "The Unlicense",
     ],
-    name: "license",
+validate: your_license => {
+    if (your_license) {
+        return true;
+    } else {
+        console.log("Please choose a license!");
+        return false;
+    }
+}
   },
   {
     type: "input",
-    message: "At th moment, this project is not open to any contributions.",
+    message: "How do you think you could contribute to this project?",
     name: "contributing",
+    validate: your_contribution => {
+        if (your_contribution) {
+            return true;
+        } else {
+            console.log("Please provide a description of how you would contribute.");
+            return false;
+        }
+    }
   },
   {
     type: "input",
-    message: "You can test this application by...",
+    message: "You does a user test/run this project?",
     name: "tests",
+    validate: (your_test) => {
+        if (your_test) {
+            return true;
+        } else {
+            console.log("Plesase explain how you test this project!");
+            return false;
+        }
+    }
   },
   {
     type: "input",
     message:
-      "Feel free to contact me on my GitHub @noahSPICE or by email @ thecasualtheologian@gmail.com",
-    name: "questions",
+      "Enter Github username. :)",
+    name: "username",
+    validate: github_input => {
+        if (github_input) {
+            return true;
+        } else {
+            console.log("Please enter your Github username... NOW!");
+            return false;
+        }
+    }
   },
 ];
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
-    fs.writeFile(fileName, data, err => {
+    fs.writeFile(fileName, data, (err) => {
         if (err) {
           return console.log(err);
         }
@@ -85,25 +134,12 @@ function writeToFile(fileName, data) {
 }
 
 // TODO: Create a function to initialize app
-async function init() {
-    try {
-
-        const userResponses = await inquirer.prompt(questions);
-        console.log("Your responses: ", userResponses);
-        console.log("Your input is appreciated, please wait while I fetch your GitHub data");
-    
-        const userInfo = await api.getUser(userResponses);
-        console.log("Your GitHub user info: ", userInfo);
-    
-        console.log("Now I am FINALLY generating your README")
-        const markdown = generateMarkdown(userResponses, userInfo);
-        console.log(markdown);
-    
-        await writeFileAsync(markdown);
-
-    } catch (error) {
-        console.log(error);
-    }
+function init() {
+    inquirer.prompt(qustions)
+    .then(function(userInput) {
+        console.log(userInput)
+        writeToFile("README.md", generateMarkdown(userInput));
+    });
 };
 
 // Function call to initialize app
