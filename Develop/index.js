@@ -85,7 +85,26 @@ function writeToFile(fileName, data) {
 }
 
 // TODO: Create a function to initialize app
-function init() {}
+async function init() {
+    try {
+
+        const userResponses = await inquirer.prompt(questions);
+        console.log("Your responses: ", userResponses);
+        console.log("Your input is appreciated, please wait while I fetch your GitHub data");
+    
+        const userInfo = await api.getUser(userResponses);
+        console.log("Your GitHub user info: ", userInfo);
+    
+        console.log("Now I am FINALLY generating your README")
+        const markdown = generateMarkdown(userResponses, userInfo);
+        console.log(markdown);
+    
+        await writeFileAsync(markdown);
+
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 // Function call to initialize app
 init();
