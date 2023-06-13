@@ -35,7 +35,7 @@ const questions = [
   {
     type: "input",
     message:
-      "This is how you install. Make sure you pay attention!",
+      "This is how you install. Type 'npm install'",
     name: "installation",
     validate: your_installation => {
         if (your_installation) {
@@ -49,7 +49,7 @@ const questions = [
   {
     type: "input",
     message:
-      "How do YOU plan on using this application?",
+      "How do you plan on using/testing this file?",
     name: "usage",
     validate: your_usage => {
         if (your_usage) {
@@ -82,7 +82,7 @@ validate: your_license => {
   },
   {
     type: "input",
-    message: "How do you think you could contribute to this project?",
+    message: "How could you contribute to this project?",
     name: "contributing",
     validate: your_contribution => {
         if (your_contribution) {
@@ -95,7 +95,7 @@ validate: your_license => {
   },
   {
     type: "input",
-    message: "You does a user test/run this project?",
+    message: "How does a user test/run this project?",
     name: "tests",
     validate: (your_test) => {
         if (your_test) {
@@ -135,7 +135,7 @@ function writeToFile(fileName, data) {
 
 // TODO: Create a function to initialize app
 function init() {
-    inquirer.prompt(qustions)
+    inquirer.prompt(questions)
     .then(function(userInput) {
         console.log(userInput)
         writeToFile("README.md", generateMarkdown(userInput));
